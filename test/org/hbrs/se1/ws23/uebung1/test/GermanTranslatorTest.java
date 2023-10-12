@@ -25,5 +25,6 @@ class GermanTranslatorTest {
         assertThrows(IllegalArgumentException.class, () -> translator.translateNumber(11));
         assertThrows(IllegalArgumentException.class, () -> translator.translateNumber(0));
         assertThrows(IllegalArgumentException.class, () -> translator.translateNumber(-1));
+        assertThrows(IllegalArgumentException.class, () -> translator.translateNumber(-5));
     }
 }

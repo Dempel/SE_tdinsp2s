@@ -3,15 +3,15 @@ package org.hbrs.se1.ws23.uebung3.persistence;
 import java.io.*;
 import java.util.List;
 
+import static java.lang.System.getProperties;
 import static java.lang.System.in;
 
 public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
 
     // URL of file, in which the objects are stored
     private String location = "objects.ser";
-    private FileInputStream fis = null;
     private FileOutputStream fos = null;
-
+    private FileInputStream fis = null;
 
     // Backdoor method used only for testing purposes, if the location should be changed in a Unit-Test
     // Example: Location is a directory (Streams do not like directories, so try this out ;-)!
@@ -28,8 +28,8 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     public void openConnection() throws PersistenceException {
 
         try {
-            fis = new FileInputStream(location);
             fos = new FileOutputStream(location);
+            fis = new FileInputStream(location);
 
         } catch (Exception e) {
             throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Open-Connection Fehlgeschlagen!");
@@ -54,14 +54,14 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
      * Method for saving a list of Member-objects to a disk (HDD)
      */
     public void save(List<E> member) throws PersistenceException  {
-        openConnection();
-        try (ObjectOutputStream obj = new ObjectOutputStream(fos)) {
-            obj.writeObject(member);
-            obj.flush();
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(member);
+            out.flush();
+            out.close();
         } catch (Exception e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Save fehlgeschlagen!");
+            throw new PersistenceException(PersistenceException.ExceptionType.NoFileFound, "Save fehlgeschlagen!");
         }
-        closeConnection();
     }
 
     @Override
@@ -71,22 +71,18 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
      * Take also a look at the import statements above ;-!
      */
     public List<E> load() throws PersistenceException  {
-        openConnection();
         try {
-            ObjectInputStream ois = null;
-            List<?> newListe =  null;
-            ois = new ObjectInputStream(fis);
-
+            ObjectInputStream ois = new ObjectInputStream(fis);
             Object obj = ois.readObject();
             if (obj instanceof List<?>) {
-                newListe = (List) obj;
+                return (List<E>) obj;
+            } else {
+                throw new PersistenceException(PersistenceException.ExceptionType.ImplementationNotAvailable, "Geladenes Objekt ist keine Liste!");
             }
-            closeConnection();
-            ois.close();
-            return (List<E>) newListe;
+
 
         } catch (Exception e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Load fehlgeschlagen!");
+            throw new PersistenceException(PersistenceException.ExceptionType.NoFileFound, "Load fehlgeschlagen!");
         }
     }
     // Some Coding hints ;-)

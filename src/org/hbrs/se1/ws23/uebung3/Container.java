@@ -45,6 +45,14 @@ public class Container{
 		liste = strategy.load();
 
 	}
+	public List<Member> getCurrentList() {
+		return liste;
+
+	}
+	public void deleteAll() {
+		liste.removeAll(liste);
+	}
+
 	/*
 	 * Methode zum Hinzufuegen einer Member.
 	 * @throws ContainerException
@@ -96,96 +104,14 @@ public class Container{
 	/*
 	 * Methode zur Bestimmung der Anzahl der von Member-Objekten
 	 * Aufruf der Methode size() aus List
-	 * 
 	 */
 	public int size(){
 		return liste.size();
 	}
 
-	
-	/*
-	 * Methode zur Ausgabe aller IDs der Member-Objekte. Es werden verschiedene Varianten vorgestellt!
-	 * Fuer eine ordnungsgemaesse Ausgabe sollten die unpassenden Varianten und und Loesungen
-	 * natuerlich auskommentiert werden.
-	 * 
-	 */
-	public void dump(){
-		System.out.println("Ausgabe aller Member-Objekte: ");
 
-		// Loesung mit Iterator:
-		Iterator<Member> i = liste.iterator();
-		while (  i.hasNext() ) {
-			Member p = i.next();
-			System.out.println("ID: " + p.getID() );
-		}
-		
-		// Loesung Nr. 1 mit For each Schleife: Sequentielle Bearbeitung der Schleife
-		for ( Member p : liste ) {
-			System.out.println( p.toString()  );
-		}
-		
-		// Loesung Nr. 2:
-		// Implementierung mit forEach: eine Iteration wird hier nicht mehr
-		// explizit beschrieben, sondern der Implementierung der Methode
-		// forEach überlassen! Consumer: eine Parametrisierung eines Objekts mit einer Anweisung (Funktion),
-		// die eine Aktion auf einem Element vom Typ T (hier: Member) darstellt. 
-		// Consumer<T> ist ein Functional Interface
-		liste.forEach( new Consumer<Member>() {
-			@Override
-			public void accept(Member p) {
-				// Die Funktion
-				System.out.println( p.toString()  );	
-			}
-		});
-			 
-		// Loesung Nr. 3:
-		// Abkürzende Schreibweise für forEach mit einem LambaAusdruck
-		// Ein Objekt wird mit einer Anweisung (Funktion) parametrisiert
-		liste.forEach( (Member element) -> System.out.println(element));
+	//Interne Methode zur Ermittlung einer Member
 
-		// Der Type Member kann auf der linken Seite weggelassen werden!
-		liste.forEach( element -> System.out.println( element ) );
-
-		// Ueber die Streaming-Funktion koennen weitere Filterungen durchgefuehrt werden
-		// Dieses Vorgehen wird auch als Pattern Filter-Map-Reduce bezeichnet (vgl. Kapitel 4 bzw. 6
-		// sowie die Uebung Nr. 4:		
-		// Variante 4.1 (mit zwei Filtern und mit foreach als Reduzierung (reduce)):
-		liste.stream() // Parallelisierung hier moeglich mit .parallelstream()
-		      .filter( element -> element.getID() > 20 )
-			  .filter(element -> element.getID() < 1000 )
-			  .forEach(element -> System.out.println(element) );
-
-		// Variante 4.2 (mit zwei Filtern und einer Reduzierung (reduce) auf eine Liste ohne foreach):		
-		List<Integer> newListe = liste.stream() // Parallelisierung hier moeglich mit .parallelstream()
-								      .filter( element -> element.getID() > 20 )
-								      .filter(element -> element.getID() < 1000 )
-								      .map( element -> element.getID() )
-								      .collect( Collectors.toList() );
-								     
-		System.out.println( newListe );
-
-        // Loesung Nr. 4:
-        // Vorteil: Möglichkeit der parallelen Verarbeitung der Liste möglich
-        // Erhöht die Performance der Anwendung
-        liste.parallelStream().forEach( element -> System.out.println(element) );
-
-
-        // Variante fuer die Variante Nr. 4.2:
-		// Achtung: diese Variante ist im Gegensatz zur 4.2 nicht parallelisierbar!
-		List<Integer> newListe2 = new ArrayList<Integer>();
-		for ( Member p : liste ) {
-			if (p.getID() > 20 && p.getID()<1000 ) {
-				newListe2.add(p.getID());
-			}
-		}
-		System.out.println(newListe2);
-
-	}
-
-	/*
-	 * Interne Methode zur Ermittlung einer Member
-	 * 
-	 */
 	private Member getMember(Integer id) {
 		for ( Member rec : liste) {
 			if (id == rec.getID().intValue() ){

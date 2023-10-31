@@ -42,7 +42,7 @@ public class Container{
 		if (strategy == null) {
 			throw new PersistenceException(PersistenceException.ExceptionType.NoStrategyIsSet, "Keine Strategie gesetzt!");
 		}
-		liste = strategy.load();
+		liste = (ArrayList<Member>)strategy.load();
 
 	}
 	public List<Member> getCurrentList() {
@@ -50,7 +50,9 @@ public class Container{
 
 	}
 	public void deleteAll() {
-		liste.removeAll(liste);
+		while (size() > 0) {
+			liste.remove(0);
+		}
 	}
 
 	/*

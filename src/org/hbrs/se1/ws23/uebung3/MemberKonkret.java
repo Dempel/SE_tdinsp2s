@@ -1,7 +1,9 @@
 package org.hbrs.se1.ws23.uebung3;
 
 
-public class MemberKonkret implements Member {
+import java.io.Serializable;
+
+public class MemberKonkret implements Member, Serializable {
 	
 	private Integer id = null;
 	

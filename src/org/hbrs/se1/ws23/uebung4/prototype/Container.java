@@ -2,10 +2,9 @@ package org.hbrs.se1.ws23.uebung4.prototype;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /*
- * Klasse zum Management sowie zur Eingabe unnd Ausgabe von User-Stories.
+ * Klasse zum Management sowie zur Eingabe und Ausgabe von User-Stories.
  * Die Anwendung wird über dies Klasse auch gestartet (main-Methode hier vorhanden)
  *
  * erstellt von Julius P., H-BRS 2023, Version 1.0

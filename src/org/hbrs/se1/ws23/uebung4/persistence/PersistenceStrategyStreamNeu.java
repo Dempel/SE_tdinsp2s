@@ -53,11 +53,11 @@ public class PersistenceStrategyStreamNeu<E> implements PersistenceStrategy<E> {
     /**
      * Method for saving a list of Member-objects to a disk (HDD)
      */
-    public void save(List<E> member) throws PersistenceException {
+   public void save(List<E> liste) throws PersistenceException {
         try {
             fos = new FileOutputStream(location);
             ObjectOutputStream out = new ObjectOutputStream(fos);
-            out.writeObject(member);
+            out.writeObject(liste);
             out.flush();
             out.close();
             fos.close();
@@ -89,24 +89,4 @@ public class PersistenceStrategyStreamNeu<E> implements PersistenceStrategy<E> {
             throw new PersistenceException(PersistenceException.ExceptionType.NoFileFound, "Load fehlgeschlagen!");
         }
     }
-    // Some Coding hints ;-)
-
-    // ObjectInputStream ois = null;
-    // FileInputStream fis = null;
-    // List<...> newListe =  null;
-    //
-    // Initiating the Stream (can also be moved to method openConnection()... ;-)
-    // fis = new FileInputStream( " a location to a file" );
-
-    // Tipp: Use a directory (ends with "/") to implement a negative test case ;-)
-    // ois = new ObjectInputStream(fis);
-
-    // Reading and extracting the list (try .. catch committed here)
-    // Object obj = ois.readObject();
-
-    // if (obj instanceof List<?>) {
-    //       newListe = (List) obj;
-    // return newListe
-
-    // and finally close the streams (guess where this could be...?)
 }

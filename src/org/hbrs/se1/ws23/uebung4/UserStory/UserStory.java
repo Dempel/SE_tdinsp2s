@@ -92,14 +92,14 @@ public class UserStory implements Serializable {
 
         @Override
         public String toString() {
-            return "ID: " + id + "\n" +
-                    "Beschreibung: " + titel + "\n" +
-                    "Akteptanzkriterium: " + akzeptanzkriterium + "\n" +
-                    "Mehrwert: " + mehrwert + "\n" +
-                    "Strafe: " + strafe + "\n" +
-                    "Aufwand: " + aufwand + "\n" +
-                    "Risiko: " + risk + "\n" +
-                    "Priorität: " + prio +"\n" +
+            return "ID: " + id + "\t" +
+                    "Beschreibung: " + titel + "\t" +
+                    "Akteptanzkriterium: " + akzeptanzkriterium + "\t" +
+                    "Mehrwert: " + mehrwert + "\t" +
+                    "Strafe: " + strafe + "\t" +
+                    "Aufwand: " + aufwand + "\t" +
+                    "Risiko: " + risk + "\t" +
+                    "Priorität: " + prio +"\t" +
                     "Projekt: " + project;
         }
     }

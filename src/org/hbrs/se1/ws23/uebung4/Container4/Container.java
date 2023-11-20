@@ -1,16 +1,14 @@
 package org.hbrs.se1.ws23.uebung4.Container4;
 
 
-import org.hbrs.se1.ws23.uebung3.Member;
-import org.hbrs.se1.ws23.uebung4.persistence.PersistenceStrategyStream;
+
 import org.hbrs.se1.ws23.uebung4.UserStory.UserStory;
 import org.hbrs.se1.ws23.uebung4.persistence.PersistenceException;
 import org.hbrs.se1.ws23.uebung4.persistence.PersistenceStrategy;
+import org.hbrs.se1.ws23.uebung4.persistence.PersistenceStrategyStreamNeu;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Container<T extends UserStory> {
 
@@ -21,7 +19,6 @@ public class Container<T extends UserStory> {
 	 */
 	private List<T> liste = new ArrayList<T>();
 
-	final static String LOCATION = "allStories.ser";
 	private static Container instance = new Container();
 	public PersistenceStrategy<T> strategy;
 
@@ -157,7 +154,11 @@ public class Container<T extends UserStory> {
 			}
 			// Search-Befehl: search (Suche nach User Stories nach Projekten; Suchwort (= Bezeichnung des Projektes) wird dabei als Parameter übergeben);
 			if (strings[0].equals("search")) {
-
+				for (T e: liste) {
+					if(e.getProject().equals(strings[1])) {
+						System.out.println(e.toString());
+					}
+				}
 			}
 
 
@@ -170,22 +171,10 @@ public class Container<T extends UserStory> {
 
 	public void startAusgabe() {
 
-		// Hier möchte Herr P. die Liste mit einem eigenen Sortieralgorithmus sortieren und dann
-		// ausgeben. Allerdings weiss der Student hier nicht weiter
-
-		// [Sortierung ausgelassen]
-		// Todo: Implementierung Sortierung (F4)
-
-		// Klassische Ausgabe ueber eine For-Each-Schleife
-		for (T story : liste) {
-			System.out.println(story.toString());
+		liste.sort(Comparator.comparing(UserStory ::getPrio).reversed());
+		for (UserStory story : liste) {
+			System.out.println(story);
 		}
-
-		// [Variante mit forEach-Methode / Streams (--> Kapitel 9, Lösung Übung Nr. 2)?
-		//  Gerne auch mit Beachtung der neuen US1
-		// (Filterung Projekt = "ein Wert (z.B. Coll@HBRS)" und Risiko >=5
-		// Todo: Implementierung Filterung mit Lambda (F5)
-
 	}
 	public void help() {
 		System.out.println("Folgende Befehle stehen zur Verfuegung:" + "\n" +
@@ -198,31 +187,25 @@ public class Container<T extends UserStory> {
 				"exit "+ "\t" + "[Verlassen der Anwendung]");
 	}
 	public void enter(Scanner sc) throws ContainerException {
-
 		System.out.println("ID:"); int id = sc.nextInt();
 		sc.nextLine();
-		System.out.println("Beschreibung:"); String titel = sc.nextLine();
-		System.out.println("Akzeptanzkriterium:"); String akzeptanzkriterium = sc.nextLine();
-		System.out.println("Mehrwert:"); int mehrwert = sc.nextInt();
-		System.out.println("Strafe:"); int strafe = sc.nextInt();
-		System.out.println("Aufwand:"); int aufwand = sc.nextInt();
-		System.out.println("Risiko:"); int risk = sc.nextInt();
-		System.out.println("Projekt:"); String project = sc.next();
-		double prio = (mehrwert+strafe)/(aufwand+risk);
-
+		System.out.println("Beschreibung:"); 		String titel = sc.nextLine();
+		System.out.println("Akzeptanzkriterium:"); 	String akzeptanzkriterium = sc.nextLine();
+		System.out.println("Mehrwert(1-5):"); 		int mehrwert = sc.nextInt(); 	if (mehrwert > 5 || mehrwert < 1) {throw new InputMismatchException("Falsche Eingabe!");}
+		System.out.println("Strafe(1-5):"); 		int strafe = sc.nextInt(); 		if (strafe > 5 || strafe < 1) {throw new InputMismatchException("Falsche Eingabe!");}
+		System.out.println("Aufwand(1-n):"); 		int aufwand = sc.nextInt(); 	if (aufwand < 0) {throw new InputMismatchException("Falsche Eingabe!");}
+		System.out.println("Risiko(1-5):"); 		int risk = sc.nextInt(); 		if (risk > 5 || risk < 1) {throw new InputMismatchException("Falsche Eingabe!");}
+		System.out.println("Projekt:"); 			String project = sc.next();
+		double prio = (double) (mehrwert + strafe) /(aufwand+risk);
 		UserStory userStory = new UserStory(id, titel, akzeptanzkriterium, mehrwert, strafe, aufwand, risk, prio);
 		userStory.setProject(project);
-
 		addUserStory((T) userStory);
 	}
 	public static void main (String[] args) throws Exception {
 		Container con = Container.getInstance();
-		PersistenceStrategy<UserStory> strategy = new PersistenceStrategyStream<>();
-		((PersistenceStrategyStream<UserStory>)strategy).setLocation("test/org/hbrs/se1/ws23/uebung4/Container/testdatei.ver");
+		PersistenceStrategy<UserStory> strategy = new PersistenceStrategyStreamNeu<>();
+		((PersistenceStrategyStreamNeu<UserStory>)strategy).setLocation("test/org/hbrs/se1/ws23/uebung4/test/testdata.ver");
 		con.strategy = strategy;
-		strategy.openConnection();
 		con.startEingabe();
-		strategy.closeConnection();
 	}
-
 }

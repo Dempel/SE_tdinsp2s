@@ -21,7 +21,7 @@ public class SoftwareTest {
         con.strategy = strategy;
         con.startEingabe();
     }
-    /*@Test
+    @Test
     void ladeUserStory() throws Exception {
         System.out.println("Das Programm startet jetzt erneut. Rufe durch 'load' die eben gespeicherte User-Story wieder auf");
         System.out.println("Durch den befehl 'dump' kannst du dir die User-Story ausgeben lassen und überprüfen ob diese richtig ist.");
@@ -43,6 +43,6 @@ public class SoftwareTest {
         ((PersistenceStrategyStreamNeu<UserStory>)strategy).setLocation("test/org/hbrs/se1/ws23/uebung4/test/testdata.ver");
         con.strategy = strategy;
         con.startEingabe();
-    }*/
+    }
 
 }

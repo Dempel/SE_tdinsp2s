@@ -8,9 +8,50 @@ import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.hbrs.se1.ws23.uebung4.Container4.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
 
 public class SoftwareTest {
+    /*@Test
+    void speichereUndLadeUserStory() throws Exception {
+        System.out.println("Teste: Gib 'enter' ein, trage eine User-Story ein, gib dann 'store' ein, um diese Persistenz abzuspeichern.");
+        System.out.println("Danach kannst du 'exit' eingeben, um das Programm zu beenden.");
 
+        // Backup von System.in und System.out erstellen
+        InputStream originalSystemIn = System.in;
+        PrintStream originalSystemOut = System.out;
+
+        try {
+            // Mock für System.in erstellen
+            ByteArrayInputStream mockInput = new ByteArrayInputStream("enter\nTestID\nTestBeschreibung\nTestAkzeptanzkriterium\n4\n4\n2\n2\nTestProjekt\nstore\nexit\n".getBytes());
+            System.setIn(mockInput);
+
+            // Mock für System.out erstellen
+            ByteArrayOutputStream mockOutput = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(mockOutput));
+
+            // Container erstellen
+            Container con = Container.getInstance();
+
+            // PersistenceStrategy und Location setzen (wie zuvor)
+
+            // Test durchführen
+            con.startEingabe();
+
+            // Hier können Assertions eingefügt werden, um zu überprüfen, ob die erwarteten Aktionen ausgeführt wurden.
+
+            // Beispiel: Überprüfen der Ausgabe
+            String output = mockOutput.toString();
+            System.out.println(output);
+            // Füge hier Assertions für die erwartete Ausgabe hinzu
+        } finally {
+            // Original System.in und System.out wiederherstellen
+            System.setIn(originalSystemIn);
+            System.setOut(originalSystemOut);
+        }
+    }*/
     @Test
     void speichereUserStory() throws Exception {
         System.out.println("Teste so: Gib 'enter' ein. Trage eine User-Story ein und gib dann 'store' ein um diese persistenz abzuspeichern.");

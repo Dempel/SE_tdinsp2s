@@ -48,18 +48,10 @@ public class MyPrettyRectangle {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
         MyPrettyRectangle rectangle = (MyPrettyRectangle) obj;
         return Double.compare(rectangle.x1, x1) == 0 &&
                 Double.compare(rectangle.y1, y1) == 0 &&
                 Double.compare(rectangle.x2, x2) == 0 &&
                 Double.compare(rectangle.y2, y2) == 0;
     }
-
-    // Überschreiben der hashCode-Methode
-    @Override
-    public int hashCode() {
-        return Objects.hash(x1, y1, x2, y2);
-    }
-
 }
